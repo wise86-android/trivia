@@ -1,7 +1,7 @@
 <?php
 include_once 'Game.php';
 
-class GameGoldenMasterTest extends \PHPUnit_Framework_TestCase
+class GameGoldenMasterTest extends \PHPUnit\Framework\TestCase
 {
     private $master = 'master.txt';
     private $expectedOutput = array();
