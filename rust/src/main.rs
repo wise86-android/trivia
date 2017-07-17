@@ -1,3 +1,4 @@
+#![feature(set_stdio)]
 extern crate rand;
 
 pub struct Game
@@ -189,21 +190,78 @@ impl Game {
     }
 }
 
-fn main()
+fn play<R:rand::Rng>(mut random: R)
 {
     let mut not_a_winner : bool = false;
-    let mut game = Game {..Default::default()}; 
+    let mut game = Game {..Default::default()};
     game.add("Chet".to_string());
     game.add("Pat".to_string());
     game.add("Sue".to_string());
     while {
-        game.roll(rand::random::<i32>() % 5 + 1);
-        if rand::random::<i32>() % 9 == 7 {
+        game.roll(random.gen::<i32>() % 5 + 1);
+        if random.gen::<i32>() % 9 == 7 {
             not_a_winner = game.wrong_answer();
         }
-        else {
-            not_a_winner = game.was_correctly_answered();
-        }
+            else {
+                not_a_winner = game.was_correctly_answered();
+            }
         not_a_winner != false
     } {}
+}
+
+fn main()
+{
+    play(rand::thread_rng())
+}
+
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    mod golden_master {
+        use super::*;
+
+        static GOLDEN_MASTER: &'static str = "golden_master.out";
+
+        fn write_runner<P: AsRef<std::path::Path>>(path: P) {
+            let mut sink = std::fs::File::create(path).unwrap();
+            play_test_runner(sink);
+        }
+
+        fn read<P: AsRef<std::path::Path>>(path: P) -> String {
+            use std::io::Read;
+            let mut content = String::new();
+            let mut f = std::fs::File::open(path).unwrap();
+            f.read_to_string(&mut content).unwrap();
+            content
+        }
+
+        fn play_test_runner<S>(sink: S)
+        where S: std::io::Write + std::marker::Send + 'static
+        {
+            std::io::set_print(Some(Box::new(sink)));
+            for i in 0..100 {
+                use rand::SeedableRng;
+                let seed = [i,2,3,4];
+                play(rand::StdRng::from_seed(&seed));
+            }
+        }
+
+        #[test]
+        fn check_golden_master() {
+            let path = std::path::Path::new(GOLDEN_MASTER);
+            static CHECK: &'static str = "check.out";
+
+            if !path.exists() {
+                write_runner(&path);
+            }
+            write_runner(CHECK);
+
+            assert_eq!(read(path), read(CHECK));
+
+            std::fs::remove_file(CHECK);
+        }
+
+    }
 }
