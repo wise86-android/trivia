@@ -42,9 +42,9 @@ class GameGoldenMasterTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    private function storeInMaster($run)
+    private function storeInMaster($output)
     {
-        fputcsv($this->fp, explode("\n", $run));
+        fputcsv($this->fp, explode("\n", $output));
     }
 
     private function loadMasterRun()
