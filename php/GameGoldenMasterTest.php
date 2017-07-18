@@ -4,7 +4,6 @@ include_once 'Game.php';
 class GameGoldenMasterTest extends \PHPUnit\Framework\TestCase
 {
     private $master = 'master.txt';
-    private $expectedOutput = array();
     private $sample = 100;
     private $generation;
 
