@@ -25,7 +25,6 @@ class GameGoldenMasterTest extends \PHPUnit\Framework\TestCase
 
     public function testSeveralThousandsIterationProduceTheSameResultsAsTheGoldStandard()
     {
-        $this->output = array();
         srand(0);
         for ($i = 0; $i < $this->sample; $i++) {
             $output = $this->runAndCaptureOutput();
