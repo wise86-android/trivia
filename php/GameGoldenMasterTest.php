@@ -29,11 +29,11 @@ class GameGoldenMasterTest extends \PHPUnit\Framework\TestCase
         srand(0);
         for ($i = 0; $i < $this->sample; $i++) {
             $output = $this->runAndCaptureOutput();
-            $this->assertEqualToMaster($i, $output);
+            $this->assertEqualToMaster($output);
         }
     }
 
-    private function assertEqualToMaster($i, $output)
+    private function assertEqualToMaster($output)
     {
         if ($this->generation) {
             $this->storeInMaster($output);
