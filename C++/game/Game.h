@@ -45,4 +45,6 @@ private:
 	bool didPlayerWin();
 };
 
+int gameRunner(int argc, char *args[]);
+
 #endif /* GAME_H_ */

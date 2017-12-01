@@ -3,7 +3,7 @@
 
 static bool notAWinner;
 
-int main(int argc, char *args[])
+int gameRunner(int argc, char *args[])
 {
 
 	if(argc == 2){
