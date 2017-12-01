@@ -3,8 +3,13 @@
 
 static bool notAWinner;
 
-int main()
+int main(int argc, char *args[])
 {
+
+	if(argc == 2){
+		srand(atoi(args[1]));
+	}
+
 	Game aGame;
 
 	aGame.add("Chet");
