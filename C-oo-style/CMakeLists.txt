@@ -1,12 +1,11 @@
 cmake_minimum_required(VERSION 3.6)
 
-project(CTrivia
+project(CooTrivia
         LANGUAGES C)
 #game files
 set(SOURCE_FILES
         game/game_runner.c
-        game/game.c
-        game/player.c)
+        game/game.c)
 
 #create the game library
 add_library(TriviaLib ${SOURCE_FILES})

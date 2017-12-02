@@ -16,4 +16,6 @@ void game_roll (struct Game *game, int roll);
 bool game_was_correctly_answered (struct Game *game);
 bool game_wrong_answer (struct Game *game);
 
+int game_runner(int argc,char *args[]);
+
 #endif /* GAME_H */
