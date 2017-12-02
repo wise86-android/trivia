@@ -21,7 +21,7 @@ static void createGoldenDataSet(const string& outFile,const int iteration) {
     out.close();
 }
 
-static int compareGoldenExec(const string& goldenFile, const string& testFile) {
+static bool fileAreEqual(const string &goldenFile, const string &testFile) {
 
     ifstream expected(goldenFile);
     ifstream test(testFile);
@@ -33,11 +33,11 @@ static int compareGoldenExec(const string& goldenFile, const string& testFile) {
         getline(test,testLine);
         if(expectedLine!=testLine){
             cout<<"expected:"<<expectedLine<<"\nfound:"<<testLine;
-            return 1;
+            return false;
         }
     }
 
-    return 0;
+    return true;
 
 }
 
@@ -50,7 +50,7 @@ static bool exist(const string& file){
 int main(int argc,char *args[]){
     //file where store the original execution output
     constexpr auto goldenFileName("goldenOut.txt");
-    //file where store the current execution optuput
+    //file where store the current execution output
     constexpr auto testFileName("currentOut.txt");
     //number of game to run
     constexpr auto testIteration(100);
@@ -59,12 +59,12 @@ int main(int argc,char *args[]){
         //run the current game implementation and store in testFileName
         createGoldenDataSet(testFileName, testIteration );
         //compare with the reference output
-        return compareGoldenExec(goldenFileName, testFileName);
+        return fileAreEqual(goldenFileName, testFileName) ? EXIT_SUCCESS : EXIT_FAILURE;
     }else {
         cout<<"Generate the reference output\n";
         createGoldenDataSet(goldenFileName, testIteration);
         cout<<"Reference test created\n";
-        return 1; //fail since we didn't run any test
+        return EXIT_FAILURE; //fail since we didn't run any test
     }
 }
 

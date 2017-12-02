@@ -28,7 +28,7 @@ static void createGoldenDataSet(const char *outFile,const int iteration) {
         fprintf(stderr,"error opening the file %s (%d)",outFile,errno);
         exit(EXIT_FAILURE);
     }
-
+    fflush(stdout);//flush the original stdout to be secure to have a clean situation
     //copy stdout
     int origStdout = dup(STDOUT_FILENO);
     //change stdout to out
@@ -55,7 +55,7 @@ static long fileSize(FILE *f){
     return fileSize;
 }
 
-static int compareGoldenExec(const char* goldenFile, const char* testFile) {
+static int fileAreEqual(const char *goldenFile, const char *testFile) {
 
     FILE *golden = fopen(goldenFile,"r");
     FILE *test = fopen(testFile,"r");
@@ -72,7 +72,7 @@ static int compareGoldenExec(const char* goldenFile, const char* testFile) {
         fprintf(stderr,"file size are different\n");
         fclose(golden);
         fclose(test);
-        return EXIT_FAILURE;
+        return false;
     }
 
     char *goldenBuf = calloc(goldenLen+1,sizeof(char));
@@ -84,7 +84,7 @@ static int compareGoldenExec(const char* goldenFile, const char* testFile) {
     goldenBuf[goldenLen]='\0';
     testBuf[testLen]='\0';
 
-    int ret = strncmp(goldenBuf,testBuf,goldenBuf);
+    int ret = strncmp(goldenBuf,testBuf,goldenLen);
 
     free(goldenBuf);
     free(testBuf);
@@ -112,7 +112,7 @@ int main(int argc,char *args[]){
         //run the current game implementation and store in testFileName
         createGoldenDataSet(testFileName, testIteration );
         //compare with the reference output
-        return compareGoldenExec(goldenFileName, testFileName);
+        return fileAreEqual(goldenFileName, testFileName) ? EXIT_SUCCESS : EXIT_FAILURE;
     }else {
         printf("Generate the reference output\n");
         createGoldenDataSet(goldenFileName, testIteration);
