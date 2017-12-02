@@ -13,4 +13,6 @@ extern int not_a_winner;
 void was_correctly_answered (void );
 void wrong_answer (void );
 
+int run_game (int argc,char *args[]);
+
 #endif /* GAME_H */

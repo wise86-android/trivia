@@ -1,10 +1,10 @@
 #include <stdlib.h>
 #include <time.h>
 #include "game.h"
-
+#include <stdio.h>
 
 int
-main ()
+run_game (int argc,char *args[])
 {
   newGame();
 
@@ -12,7 +12,10 @@ main ()
   add ( "Pat");
   add ( "Sue");
 
-	srand ((unsigned)time(0));
+	if(argc==2) {
+		printf("%s",args[1]);
+		srand(atoi(args[1]));
+	}
 
       do
 	{
