@@ -7,14 +7,15 @@ object GameRunner {
     var notAWinner: Boolean = false
 }
 
-fun main(args: Array<String>) {
+fun runGame( randomInit:Int){
+
     val aGame = Game()
 
     aGame.add("Chet")
     aGame.add("Pat")
     aGame.add("Sue")
 
-    val rand = Random()
+    val rand = Random(randomInit.toLong());
 
     do {
 
@@ -30,3 +31,5 @@ fun main(args: Array<String>) {
     } while (GameRunner.notAWinner)
 
 }
+
+
